@@ -142,7 +142,7 @@ void eliminarPaquete() {
 void menu() {
     int opcion;
     do {
-        cout << "\n--- GESTIÓN DE PAQUETES TURÍSTICOS ---\n";
+        cout << "\n------------GESTIÓN DE PAQUETES TURÍSTICOS -------------------\n";
         cout << "1. Crear paquete\n";
         cout << "2. Mostrar paquetes\n";
         cout << "3. Modificar paquete\n";
