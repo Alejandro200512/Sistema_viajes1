@@ -163,6 +163,7 @@ void menu() {
 }
 
 int main() {
+    setlocale(LC_ALL, "Spanish");
     menu();
     return 0;
 }
