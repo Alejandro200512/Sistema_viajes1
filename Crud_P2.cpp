@@ -9,7 +9,7 @@ using namespace std;
 struct PaqueteTuristico {
     int id;
     string destino;
-    double precio;
+    float precio;
     int duracionDias;
     bool disponible;
 };
@@ -17,7 +17,7 @@ struct PaqueteTuristico {
 // Estructura para almacenar información del cliente
 struct Cliente {
     int edad;
-    double descuento;
+    float descuento;
     string tipoPago;
 };
 
