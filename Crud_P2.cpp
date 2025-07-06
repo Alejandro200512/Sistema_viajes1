@@ -186,8 +186,8 @@ void menu() {
             case 2: mostrarPaquetes(); break;
             case 3: modificarPaquete(); break;
             case 4: eliminarPaquete(); break;
-            case 5: cout << "Saliendo...\n"; break;
-            default: cout << "Opción inválida.\n"; break;
+            case 5: cout << "Usted esta saliendo del sistema \n"; break;
+            default: cout << "La opciónes incorrecta vuelva a intentarlo nuevamente.\n"; break;
         }
     } while (opcion != 5);
 }
