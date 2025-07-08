@@ -1,5 +1,5 @@
 #include <iostream>
-#include <fstream>
+#include <fstream> //para archivos planos
 #include <vector>
 #include <string>
 #include <iomanip>
@@ -16,7 +16,7 @@ struct PaqueteTuristico {
     bool disponible;
 };
 
-// Estructura para almacenar información del cliente
+// Estructura para almacenar informaciÃ³n del cliente
 struct Cliente {
     int edad;
     double descuento;
@@ -26,17 +26,17 @@ struct Cliente {
 // Archivo donde se guardan los datos
 const string archivo = "paquetes.txt";
 
-//Sirve para que el usuario pueda escribir ‘Efectivo’, ‘EFECTIVO’ o como quiera, y el programa lo entienda igual.
+//Sirve para que el usuario pueda escribir â€˜Efectivoâ€™, â€˜EFECTIVOâ€™ o como quiera, y el programa lo entienda igual.
 string aMinusculas(string texto) {
     for (int i = 0; i < texto.length(); i++) {
-        texto[i] = tolower(texto[i]);  // Convierte cada letra a minúscula
+        texto[i] = tolower(texto[i]);  // Convierte cada letra a minÃºscula
     }
-    return texto;  // Devuelve el texto ya en minúsculas
+    return texto;  // Devuelve el texto ya en minÃºsculas
 }
 
 
 
-// Función para cargar los datos desde el archivo
+// FunciÃ³n para cargar los datos desde el archivo
 vector<PaqueteTuristico> cargarPaquetes() {
     vector<PaqueteTuristico> paquetes;
     ifstream fin(archivo);
@@ -76,9 +76,9 @@ void crearPaquete() {
     getline(cin, nuevo.destino);
     cout << "Precio: ";
     cin >> nuevo.precio;
-    cout << "Duración (días): ";
+    cout << "DuraciÃ³n (dÃ­as): ";
     cin >> nuevo.duracionDias;
-    cout << "Disponible (1=Sí, 0=No): ";
+    cout << "Disponible (1=SÃ­, 0=No): ";
     cin >> nuevo.disponible;
 
     // Preguntar por la edad del cliente
@@ -97,12 +97,12 @@ void crearPaquete() {
 	cin >> cliente.tipoPago;
 	cliente.tipoPago = aMinusculas(cliente.tipoPago);
 	
-	// Validar mientras lo que escribió no sea válido
+	// Validar mientras lo que escribiÃ³ no sea vÃ¡lido
 	while (cliente.tipoPago != "efectivo" &&
 	       cliente.tipoPago != "transferencia" &&
 	       cliente.tipoPago != "tarjeta") {
 	
-	    cout << "? Tipo de pago no válido. Intente nuevamente.\n";
+	    cout << "? Tipo de pago no vÃ¡lido. Intente nuevamente.\n";
 	    cout << "Tipo de pago (efectivo, transferencia o tarjeta): ";
 	    cin >> cliente.tipoPago;
 	    cliente.tipoPago = aMinusculas(cliente.tipoPago);
@@ -119,12 +119,12 @@ void crearPaquete() {
 void mostrarPaquetes() {
     vector<PaqueteTuristico> paquetes = cargarPaquetes();
     cout << left << setw(5) << "ID" << setw(20) << "Destino" << setw(10)
-         << "Precio" << setw(10) << "Días" << setw(12) << "Disponible" << endl;
+         << "Precio" << setw(10) << "DÃ­as" << setw(12) << "Disponible" << endl;
 
     for (const auto& p : paquetes) {
         cout << left << setw(5) << p.id << setw(20) << p.destino
              << setw(10) << p.precio << setw(10) << p.duracionDias
-             << (p.disponible ? "Sí" : "No") << endl;
+             << (p.disponible ? "SÃ­" : "No") << endl;
     }
 }
 
@@ -144,9 +144,9 @@ void modificarPaquete() {
             getline(cin, p.destino);
             cout << "Nuevo precio: ";
             cin >> p.precio;
-            cout << "Nueva duración (días): ";
+            cout << "Nueva duraciÃ³n (dÃ­as): ";
             cin >> p.duracionDias;
-            cout << "¿Está disponible? (1=Sí, 0=No): ";
+            cout << "Â¿EstÃ¡ disponible? (1=SÃ­, 0=No): ";
             cin >> p.disponible;
             break;
         }
@@ -181,11 +181,11 @@ void eliminarPaquete() {
         guardarPaquetes(nuevos);
         cout << "Paquete eliminado correctamente.\n";
     } else {
-        cout << "No se encontró el paquete con ese ID.\n";
+        cout << "No se encontrÃ³ el paquete con ese ID.\n";
     }
 }
 
-// Menú principal
+// MenÃº principal
 void menu() {
 setlocale(LC_ALL, "ES_ES.UTF-8");
 	
@@ -193,13 +193,13 @@ setlocale(LC_ALL, "ES_ES.UTF-8");
     do {
     	//setlocale(LC_ALL, "ES_ES.UTF-8");
     	
-        cout << "\n--- GESTIÓN DE PAQUETES TURÍSTICOS ---\n";
+        cout << "\n--- GESTIÃ“N DE PAQUETES TURÃSTICOS ---\n";
         cout << "1. Crear paquete\n";
         cout << "2. Mostrar paquetes\n";
         cout << "3. Modificar paquete\n";
         cout << "4. Eliminar paquete\n";
         cout << "5. Salir\n";
-        cout << "Seleccione una opción: ";
+        cout << "Seleccione una opciÃ³n: ";
         cin >> opcion;
 
         switch (opcion) {
@@ -208,16 +208,16 @@ setlocale(LC_ALL, "ES_ES.UTF-8");
             case 3: modificarPaquete(); break;
             case 4: eliminarPaquete(); break;
             case 5: cout << "Saliendo...\n"; break;
-            default: cout << "Opción inválida.\n"; break;
+            default: cout << "OpciÃ³n invÃ¡lida.\n"; break;
         }
     } while (opcion != 5);
 }
 
 int main() {
     //setlocale(LC_ALL "Spanish");
-	SetConsoleOutputCP(CP_UTF8);   // Salida estándar en UTF-8
-	SetConsoleCP(CP_UTF8);         // Entrada estándar en UTF-8
-	setlocale(LC_ALL, "Spanish");  // Soporte para caracteres en español	
+	SetConsoleOutputCP(CP_UTF8);   // Salida estÃ¡ndar en UTF-8
+	SetConsoleCP(CP_UTF8);         // Entrada estÃ¡ndar en UTF-8
+	setlocale(LC_ALL, "Spanish");  // Soporte para caracteres en espaÃ±ol	
     menu();
     return 0;
 }
