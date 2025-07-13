@@ -9,7 +9,6 @@
 #include <ctime>          // Para funciones de tiempo (time)
 #include <algorithm>      // Para algoritmos STL (transform, remove_if)
 
-
 using namespace std;
 
 struct PaqueteTuristico {
