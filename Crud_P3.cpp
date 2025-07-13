@@ -1,13 +1,14 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <locale.h>
-#include <limits>
-#include <cstdlib>
-#include <ctime>
-#include <algorithm>
+#include <iostream>       // Para entrada/salida estándar (cin, cout)
+#include <fstream>        // Para manejo de archivos (ifstream, ofstream)
+#include <vector>         // Para usar la estructura de datos vector
+#include <string>         // Para manejo de strings
+#include <iomanip>        // Para formato de salida (setw, fixed)
+#include <locale.h>       // Para configuración regional (setlocale)
+#include <limits>         // Para límites de tipos (numeric_limits)
+#include <cstdlib>        // Para funciones generales (rand, srand)
+#include <ctime>          // Para funciones de tiempo (time)
+#include <algorithm>      // Para algoritmos STL (transform, remove_if)
+
 
 using namespace std;
 
