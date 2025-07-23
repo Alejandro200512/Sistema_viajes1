@@ -20,7 +20,7 @@ struct Reserva {
     int dias;
     int adultos;
     int ninos;
-    int adultos_mayores;  // Cambiado de "ancianos" a "adultos_mayores"
+    int adultos_mayores;  
     double total;
 };
 
