@@ -1,29 +1,32 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <iomanip>
-#include <limits>
-#include <algorithm>
-#include <cctype>
-#include <fstream>
+#include <iostream>       // Para entrada/salida estándar
+#include <vector>         // Para usar contenedores vector
+#include <string>         // Para manejo de strings
+#include <iomanip>        // Para formato de salida (setw, fixed)
+#include <limits>         // Para límites de tipos (numeric_limits)
+#include <algorithm>      // Para algoritmos como remove_if
+#include <cctype>         // Para funciones de caracteres (toupper)
+#include <fstream>        // Para manejo de archivos
 
-using namespace std;
+using namespace std;      // Usar el espacio de nombres estándar
 
+// Estructura que representa un destino turístico
 struct Destino {
-    string nombre;
-    double costo_dia_hotel;
-    double costo_persona_pasaje;
+    string nombre;               // Nombre del destino
+    double costo_dia_hotel;      // Costo por día de hotel
+    double costo_persona_pasaje; // Costo de pasaje por persona
 };
 
+// Estructura que representa una reserva de viaje
 struct Reserva {
-    string destino;
-    int dias;
-    int adultos;
-    int ninos;
-    int adultos_mayores;  
-    double total;
+    string destino;        // Nombre del destino reservado
+    int dias;              // Días de estadía
+    int adultos;           // Cantidad de adultos
+    int ninos;             // Cantidad de niños
+    int adultos_mayores;   // Cantidad de adultos mayores
+    double total;          // Total a pagar
 };
 
+// Base de datos inicial de destinos disponibles
 vector<Destino> destinos = {
     {"Galapagos", 80, 100},
     {"Quito", 100, 60},
@@ -31,32 +34,38 @@ vector<Destino> destinos = {
     {"Ibarra", 50, 20}
 };
 
+// Vector para almacenar reservas en memoria
 vector<Reserva> reservas;
 
+// Función para limpiar el buffer de entrada
 void limpiarBuffer() {
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.clear();  // Limpiar flags de error
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descartar entrada hasta nueva línea
 }
 
+// Función para buscar un destino por nombre
 Destino* buscarDestino(const string& nombre) {
-    for(auto& destino : destinos) {
-        if(destino.nombre == nombre) {
-            return &destino;
+    for(auto& destino : destinos) {  // Recorrer todos los destinos
+        if(destino.nombre == nombre) {  // Si encuentra coincidencia
+            return &destino;  // Devolver puntero al destino
         }
     }
-    return NULL;
+    return NULL;  // Si no lo encuentra, devolver NULL
 }
 
+// Función para mostrar todos los destinos disponibles
 void mostrarDestinos() {
-    if(destinos.empty()) {
+    if(destinos.empty()) {  // Verificar si no hay destinos
         cout << "\nNo hay destinos registrados." << endl;
         return;
     }
 
+    // Mostrar encabezado de la tabla
     cout << "\n=== LISTA DE DESTINOS ===" << endl;
     cout << left << setw(20) << "DESTINO" << setw(20) << "COSTO DIA HOTEL" << "COSTO PASAJE" << endl;
     cout << string(60, '-') << endl;
 
+    // Mostrar cada destino con formato
     for(const auto& destino : destinos) {
         cout << left << setw(20) << destino.nombre 
              << setw(20) << fixed << setprecision(2) << destino.costo_dia_hotel 
@@ -64,18 +73,22 @@ void mostrarDestinos() {
     }
 }
 
+// Función para agregar un nuevo destino
 void agregarDestino() {
     Destino nuevo;
     cout << "\n=== AGREGAR NUEVO DESTINO ===" << endl;
     
+    // Solicitar nombre del destino
     cout << "Nombre del destino: ";
     getline(cin, nuevo.nombre);
     
+    // Verificar si el destino ya existe
     if(buscarDestino(nuevo.nombre) != NULL) {
         cout << "Ya existe un destino con ese nombre." << endl;
         return;
     }
 
+    // Solicitar costos
     cout << "Costo por dia de hotel: ";
     cin >> nuevo.costo_dia_hotel;
     limpiarBuffer();
@@ -84,22 +97,26 @@ void agregarDestino() {
     cin >> nuevo.costo_persona_pasaje;
     limpiarBuffer();
 
+    // Agregar el nuevo destino al vector
     destinos.push_back(nuevo);
     cout << "Destino agregado exitosamente!" << endl;
 }
 
+// Función para editar un destino existente
 void editarDestino() {
     string nombre;
     cout << "\n=== EDITAR DESTINO ===" << endl;
     cout << "Nombre del destino a editar: ";
     getline(cin, nombre);
 
+    // Buscar el destino
     Destino* destino = buscarDestino(nombre);
     if(destino == NULL) {
         cout << "No se encontro el destino." << endl;
         return;
     }
 
+    // Editar nombre (si se proporciona)
     cout << "Nuevo nombre (" << destino->nombre << "): ";
     string nuevoNombre;
     getline(cin, nuevoNombre);
@@ -111,6 +128,7 @@ void editarDestino() {
         }
     }
 
+    // Editar costo de hotel (si se proporciona)
     cout << "Nuevo costo por dia de hotel (" << destino->costo_dia_hotel << "): ";
     string input;
     getline(cin, input);
@@ -118,6 +136,7 @@ void editarDestino() {
         destino->costo_dia_hotel = stod(input);
     }
 
+    // Editar costo de pasaje (si se proporciona)
     cout << "Nuevo costo por persona de pasaje (" << destino->costo_persona_pasaje << "): ";
     getline(cin, input);
     if(!input.empty()) {
@@ -127,12 +146,14 @@ void editarDestino() {
     cout << "Destino actualizado exitosamente!" << endl;
 }
 
+// Función para eliminar un destino
 void eliminarDestino() {
     string nombre;
     cout << "\n=== ELIMINAR DESTINO ===" << endl;
     cout << "Nombre del destino a eliminar: ";
     getline(cin, nombre);
 
+    // Buscar y eliminar el destino
     auto it = remove_if(destinos.begin(), destinos.end(), 
         [&nombre](const Destino& d) { return d.nombre == nombre; });
 
@@ -144,13 +165,15 @@ void eliminarDestino() {
     }
 }
 
+// Función para guardar una reserva en archivo y memoria
 void guardarReserva(const Reserva& reserva) {
     // Guardar en memoria
     reservas.push_back(reserva);
     
     // Guardar en archivo
-    ofstream archivo("Reservas.txt", ios::app);
+    ofstream archivo("Reservas.txt", ios::app);  // Abrir en modo append
     if(archivo.is_open()) {
+        // Escribir todos los datos de la reserva
         archivo << "Destino: " << reserva.destino << "\n"
                 << "Dias: " << reserva.dias << "\n"
                 << "Adultos: " << reserva.adultos << "\n"
@@ -165,6 +188,7 @@ void guardarReserva(const Reserva& reserva) {
     }
 }
 
+// Función para mostrar todas las reservas agendadas
 void verReservas() {
     if(reservas.empty()) {
         cout << "\nNo hay reservas agendadas." << endl;
@@ -172,6 +196,7 @@ void verReservas() {
     }
 
     cout << "\n=== RESERVAS AGENDADAS ===" << endl;
+    // Mostrar cada reserva con formato
     for(const auto& reserva : reservas) {
         cout << "Destino: " << reserva.destino << "\n"
              << "Dias: " << reserva.dias << "\n"
@@ -183,12 +208,14 @@ void verReservas() {
     }
 }
 
+// Función para cargar reservas desde archivo al iniciar el programa
 void cargarReservas() {
     ifstream archivo("Reservas.txt");
     if(archivo.is_open()) {
-        reservas.clear();
+        reservas.clear();  // Limpiar reservas existentes
         string linea;
         Reserva temp;
+        // Leer línea por línea y parsear los datos
         while(getline(archivo, linea)) {
             if(linea.find("Destino: ") != string::npos) {
                 temp.destino = linea.substr(9);
@@ -202,13 +229,14 @@ void cargarReservas() {
                 temp.adultos_mayores = stoi(linea.substr(17));
             } else if(linea.find("Total: $") != string::npos) {
                 temp.total = stod(linea.substr(8));
-                reservas.push_back(temp);
+                reservas.push_back(temp);  // Agregar reserva completa al vector
             }
         }
         archivo.close();
     }
 }
 
+// Menú para gestionar destinos (CRUD)
 void gestionarDestinos() {
     int opcion;
     do {
@@ -244,6 +272,7 @@ void gestionarDestinos() {
     } while(opcion != 5);
 }
 
+// Función para calcular el costo de un viaje y opcionalmente guardarlo como reserva
 void calcularCostoViaje() {
     if(destinos.empty()) {
         cout << "\nNo hay destinos registrados para calcular." << endl;
@@ -256,6 +285,7 @@ void calcularCostoViaje() {
     cout << "Ingrese el nombre del destino: ";
     getline(cin, nombreDestino);
 
+    // Buscar el destino seleccionado
     Destino* destino = buscarDestino(nombreDestino);
     if(destino == NULL) {
         cout << "Error: No se encontro el destino." << endl;
@@ -292,6 +322,7 @@ void calcularCostoViaje() {
         limpiarBuffer();
     } while(adultos_mayores < 0 || adultos_mayores > 5);
 
+    // Verificar total de personas (1-5)
     int totalPersonas = adultos + ninos + adultos_mayores;
     if(totalPersonas < 1 || totalPersonas > 5) {
         cout << "Error: El total de personas debe estar entre 1 y 5." << endl;
@@ -301,23 +332,26 @@ void calcularCostoViaje() {
     // Calcular costos
     double costoHospedaje = destino->costo_dia_hotel * totalDias * totalPersonas;
     
+    // Calcular costos de pasajes con descuentos
     double costoPasajeAdultos = adultos * destino->costo_persona_pasaje;
-    double costoPasajeNinos = ninos * destino->costo_persona_pasaje * 0.5;
-    double costoPasajeAdultosMayores = adultos_mayores * destino->costo_persona_pasaje * 0.9;
+    double costoPasajeNinos = ninos * destino->costo_persona_pasaje * 0.5;  // 50% descuento
+    double costoPasajeAdultosMayores = adultos_mayores * destino->costo_persona_pasaje * 0.9;  // 10% descuento
     double costoPasajeTotal = costoPasajeAdultos + costoPasajeNinos + costoPasajeAdultosMayores;
 
+    // Calcular total a pagar
     double totalPagar = costoHospedaje + costoPasajeTotal;
 
-    // Mostrar resultados
+    // Mostrar detalle de costos
     cout << "\n=== DETALLE DE COSTOS ===" << endl;
     cout << "Destino: " << destino->nombre << endl;
     cout << "Total personas: " << totalPersonas << " (Adultos: " << adultos 
          << ", Niños: " << ninos << ", Adultos mayores: " << adultos_mayores << ")" << endl;
     
-    cout << fixed << setprecision(2);
+    cout << fixed << setprecision(2);  // Formato de 2 decimales
     
     cout << "Costo de hospedaje (" << totalDias << " dias): $" << costoHospedaje << endl;
     
+    // Mostrar desglose de pasajes
     cout << "Costo de pasajes:" << endl;
     cout << "  Adultos (" << adultos << "): $" << costoPasajeAdultos << endl;
     if(ninos > 0)
@@ -349,6 +383,7 @@ void calcularCostoViaje() {
     }
 }
 
+// Función para mostrar el menú principal
 void mostrarMenuPrincipal() {
     cout << "\n=== SISTEMA DE VIAJES ===" << endl;
     cout << "1. Gestionar destinos" << endl;
@@ -357,6 +392,7 @@ void mostrarMenuPrincipal() {
     cout << "4. Salir" << endl;
 }
 
+// Función principal
 int main() {
     // Cargar reservas existentes al iniciar
     cargarReservas();
@@ -370,13 +406,13 @@ int main() {
 
         switch(opcion) {
             case 1:
-                gestionarDestinos();
+                gestionarDestinos();  // CRUD de destinos
                 break;
             case 2:
-                calcularCostoViaje();
+                calcularCostoViaje();  // Cálculo y reservas
                 break;
             case 3:
-                verReservas();
+                verReservas();  // Mostrar reservas
                 break;
             case 4:
                 cout << "Saliendo del sistema..." << endl;
